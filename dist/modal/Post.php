@@ -142,6 +142,30 @@
             
             return false;
         }
+
+        // Detele Post
+        public function deletePost() {
+            // Create Query
+            $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id ';
+
+            // Prepare Statment
+            $stmt = $this->connection->prepare($query);
+
+            // Data Cleaning
+            $this->id = htmlspecialchars(strip_tags($this->id));
+
+            // Data Binding
+            $stmt->bindParam(':id', $this->id);
+
+            if($stmt->execute()) {
+                return true;
+            } 
+
+            // Something Went Wrong
+            printf("Error: %s. \n", $stmt->error);
+            
+            return false;
+        }
     }
 
 ?>
