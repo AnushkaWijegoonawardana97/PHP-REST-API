@@ -52,5 +52,26 @@
             $this->name = $row['name'];
             $this->created_at = $row['created_at'];
         }
+
+        // Create Category
+        public function postCategory() {
+            $query = 'INSERT INTO ' . $this->table . ' SET id = :id, name = :name';
+            $stmt = $this->connection->prepare($query);
+
+            $this->id =  htmlspecialchars(strip_tags($this->id));
+            $this->name =  htmlspecialchars(strip_tags($this->name));
+
+            $stmt->bindParam(':id', $this->id);
+            $stmt->bindParam(':name', $this->name);
+
+            if($stmt->execute()) {
+                return true;
+            } 
+
+            // Something Went Wrong
+            printf("Error: %s. \n", $stmt->error);
+            
+            return false;
+        }
     }
 ?>
