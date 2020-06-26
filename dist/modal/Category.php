@@ -74,6 +74,7 @@
             return false;
         }
 
+        // Update Category
         public function updateCategory() {
             $query = 'UPDATE ' . $this->table . ' SET name = :name WHERE id = :id ';
 
@@ -91,6 +92,25 @@
 
             printf("Error: %s. \n", $stmt->error);
 
+            return false;
+        }
+
+        // Delete Category
+        public function deleteCategory() {
+            $query = ' DELETE FROM ' . $this->table . ' WHERE id = :id ';
+
+            $stmt= $this->connection->prepare($query);
+            
+            $this->id = htmlspecialchars(strip_tags($this->id));
+
+            $stmt->bindParam(':id', $this->id);
+
+            if($stmt->execute()) {
+                return true;
+            }
+
+            printf("Error: %s. \n", $stmt->error);
+            
             return false;
         }
     }
